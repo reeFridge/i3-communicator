@@ -1,0 +1,8 @@
+export enum I3EventType {
+	WORKSPACE,
+	OUTPUT,
+	MODE,
+	WINDOW,
+	BAR_CONFIG_UPDATE,
+	BINDING
+}
