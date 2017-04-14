@@ -1,11 +1,10 @@
-import {I3Message, I3MessageType, MAGIC} from './i3-message';
+import {I3Message, I3MessageType} from './i3-message';
 
 export default class I3MessageBuilder {
 	private message: I3Message;
 
 	constructor() {
 		this.message = {
-			magic: MAGIC,
 			length: 0,
 			type: I3MessageType.COMMAND,
 			payload: ''
