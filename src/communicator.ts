@@ -11,24 +11,23 @@ export default class Communicator<M extends IMessage> implements ICommunicator {
 	}
 
 	connect(socketPath: string): Promise<net.Socket> {
+		this.socket = net.createConnection(socketPath);
+
 		return new Promise((resolve, reject) => {
-			this.socket = net.createConnection(socketPath);
 			this.socket.on('connect', () => resolve(this.socket));
 			this.socket.on('error', (err) => reject(err));
 		});
 	}
 
 	send(message: M): Promise<IMessage> {
-		return new Promise((resolve, reject) => {
-			this.socket.write(this.pack(message));
+		this.socket.write(this.pack(message));
 
+		return new Promise((resolve, reject) => {
 			this.socket.on('data', (data: Buffer) => {
 				resolve(this.unpack(data));
 			});
 
-			this.socket.on('error', (err) => {
-				reject(err);
-			});
+			this.socket.on('error', (err) => reject(err));
 		});
 	};
 
