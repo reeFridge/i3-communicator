@@ -4,6 +4,11 @@ import * as net from 'net';
 
 export default class Communicator<M extends IMessage> implements ICommunicator {
 	private socket: net.Socket;
+	readonly magic: string;
+
+	constructor(magic: string) {
+		this.magic = magic;
+	}
 
 	connect(socketPath: string): Promise<net.Socket> {
 		return new Promise((resolve, reject) => {
@@ -15,13 +20,10 @@ export default class Communicator<M extends IMessage> implements ICommunicator {
 
 	send(message: M): Promise<IMessage> {
 		return new Promise((resolve, reject) => {
-			const messageBuff = this.pack(message);
-
-			this.socket.write(messageBuff);
+			this.socket.write(this.pack(message));
 
 			this.socket.on('data', (data: Buffer) => {
-				// TODO: Remove hardcoded magic-string
-				resolve(this.unpack(data, 'i3-ipc'));
+				resolve(this.unpack(data));
 			});
 
 			this.socket.on('error', (err) => {
@@ -31,11 +33,11 @@ export default class Communicator<M extends IMessage> implements ICommunicator {
 	};
 
 	pack(message: M): Buffer {
-		const length = Buffer.byteLength(message.magic) + 8 + message.length;
+		const length = Buffer.byteLength(this.magic) + 8 + message.length;
 		const buff = new Buffer(length);
 		let offset: number;
 
-		offset = buff.write(message.magic);
+		offset = buff.write(this.magic);
 		offset = buff.writeInt32LE(message.length, offset);
 		offset = buff.writeInt32LE(message.type as number, offset);
 		buff.write(message.payload, offset);
@@ -43,12 +45,11 @@ export default class Communicator<M extends IMessage> implements ICommunicator {
 		return buff;
 	}
 
-	unpack(messageBuff: Buffer, magic: string): IMessage {
-		const magicLength = Buffer.byteLength(magic);
+	unpack(messageBuff: Buffer): IMessage {
+		const magicLength = Buffer.byteLength(this.magic);
 		const length = messageBuff.readInt32LE(magicLength);
 
 		return {
-			magic: magic,
 			length: length,
 			type: messageBuff.readInt32LE(10),
 			payload: messageBuff.slice(magicLength + 8).toString()
