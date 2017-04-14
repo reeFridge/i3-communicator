@@ -1,4 +1,4 @@
-import {I3Message, I3MessageType} from './i3-message';
+import {I3Message, I3MessageType} from './message';
 
 export default class I3MessageBuilder {
 	private message: I3Message;
