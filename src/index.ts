@@ -3,9 +3,9 @@ import {execSync} from 'child_process';
 import console = require('console');
 import path = require('path');
 import Communicator from './communicator';
-import {I3Message, I3MessageType, MAGIC} from './i3-message';
-import {I3Reply} from './i3-reply';
-import I3MessageBuilder from './i3-message-builder';
+import {I3Message, I3MessageType, MAGIC} from './i3/i3-message';
+import {I3Reply} from './i3/i3-reply';
+import I3MessageBuilder from './i3/i3-message-builder';
 
 const comm = new Communicator<I3Message>();
 

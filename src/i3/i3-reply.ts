@@ -1,4 +1,4 @@
-import {IMessage} from './i-message';
+import {IMessage} from '../interfaces/i-message';
 
 export enum I3ReplyType {
 	COMMAND,

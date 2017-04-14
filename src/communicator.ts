@@ -1,5 +1,5 @@
-import {ICommunicator} from './i-communicator';
-import {IMessage} from './i-message';
+import {ICommunicator} from './interfaces/i-communicator';
+import {IMessage} from './interfaces/i-message';
 import * as net from 'net';
 
 export default class Communicator<M extends IMessage> implements ICommunicator {
