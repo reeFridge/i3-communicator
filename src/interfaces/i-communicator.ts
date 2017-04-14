@@ -5,5 +5,5 @@ export interface ICommunicator {
 	connect(socketPath: string): Promise<Socket>;
 	send(message: IMessage): Promise<IMessage>;
 	pack(message: IMessage): Buffer;
-	unpack(message: Buffer, magic: string): IMessage;
+	unpack(message: Buffer): IMessage;
 }
