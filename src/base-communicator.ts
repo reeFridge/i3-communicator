@@ -2,7 +2,7 @@ import {ICommunicator} from './interfaces/i-communicator';
 import {IMessage} from './interfaces/i-message';
 import * as net from 'net';
 
-export default class Communicator<M extends IMessage> implements ICommunicator {
+export default class BaseCommunicator<M extends IMessage> implements ICommunicator {
 	private socket: net.Socket;
 	readonly magic: string;
 
