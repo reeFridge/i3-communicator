@@ -11,7 +11,7 @@
     "prestart": "npm run build",
     "start": "node ./lib",
     "pretest": "npm run build -- --project ./tsconfig.test.json",
-    "test": "mocha"
+    "test": "mocha --recursive"
   },
   "repository": {
     "type": "git",
