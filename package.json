@@ -5,9 +5,13 @@
   "main": "lib/index",
   "typings": "lib/index",
   "scripts": {
+    "clean": "rm -rf ./lib ./test",
+    "prebuild": "npm run clean",
     "build": "./node_modules/.bin/tsc",
-    "start": "npm run build && node ./lib/index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prestart": "npm run build",
+    "start": "node ./lib",
+    "pretest": "npm run build -- --project ./tsconfig.test.json",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
