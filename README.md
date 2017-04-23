@@ -11,12 +11,8 @@ const communicator: I3Communicator = new I3Communicator();
 const instruction = 'exec xscreensaver-command --lock; exec echo "hello i3"';
 
 communicator.connect(i3GetSocketPath())
-    .then(() => {
-        communicator.command(instruction)
-            .then((results: I3Result[]) => {
-                console.log(results);
-            });
-        }
-    );
+    .then(() => console.log('Connection established'))
+    .then(() => communicator.command(instruction))
+    .then((results: I3Result[]) => console.log(results));
 ```
 
