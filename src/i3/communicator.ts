@@ -4,6 +4,7 @@ import {I3Reply} from './reply';
 import {I3Result} from './externs/result';
 import I3MessageBuilder from './message-builder';
 import {I3Workspace} from "./externs/workspace";
+import {I3Version} from "./externs/version";
 
 export default class I3Communicator extends BaseCommunicator<I3Message> {
 	constructor() {
@@ -28,6 +29,16 @@ export default class I3Communicator extends BaseCommunicator<I3Message> {
 				.build()
 		).then(
 			(reply: I3Reply) => JSON.parse(reply.payload) as I3Workspace[]
+		);
+	}
+
+	getVersion(): Promise<I3Version> {
+		return this.send(
+			new I3MessageBuilder()
+				.type(I3MessageType.GET_VERSION)
+				.build()
+		).then(
+			(reply: I3Reply) => JSON.parse(reply.payload) as I3Version
 		);
 	}
 }
